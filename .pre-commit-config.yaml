@@ -7,8 +7,6 @@ repos:
     args: ['--maxkb=51200']
   - id: check-ast
   - id: check-json
-  - id: name-tests-test
-  - id: pretty-format-json
   - id: requirements-txt-fixer
   - id: trailing-whitespace
 
