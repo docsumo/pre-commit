@@ -12,6 +12,7 @@ repos:
   - id: check-yaml
     exclude: ^kubernetes/
   - id: debug-statements
+  - id: requirements-txt-fixer
 
 - repo: https://github.com/timothycrosley/isort
   rev: 5.13.2
