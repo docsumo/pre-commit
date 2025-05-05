@@ -23,7 +23,7 @@ repos:
     rev: v0.11.7
     hooks:
       - id: ruff
-        args: args: [
+        args: [
           "--fix",
           "--select=I,E,F,S",
           "--ignore=E501"
