@@ -23,5 +23,11 @@ repos:
     rev: v0.11.7
     hooks:
       - id: ruff
-        args: [--fix]
+        args: args: [
+          "--fix",
+          "--select=I,E,F,S",
+          "--ignore=E501"
+        ]
+        types_or: [ python, pyi ]
       - id: ruff-format
+        types_or: [ python, pyi ]
