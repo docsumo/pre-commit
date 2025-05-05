@@ -25,7 +25,7 @@ repos:
       - id: ruff
         args: [
           "--fix",
-          "--select=I,E,F,S",
+          "--select=I,E,W,F,S",
           "--ignore=E501"
         ]
         types_or: [ python, pyi ]
