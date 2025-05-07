@@ -24,7 +24,7 @@ repos:
 
           run_mypy = False
 
-          if os.path.isfile('mypy.ini') or os.path.isfile('.mypy.in'):
+          if os.path.isfile('mypy.ini') or os.path.isfile('.mypy.ini'):
             run_mypy = True
 
           try:
