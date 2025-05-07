@@ -17,16 +17,26 @@ repos:
     hooks:
       - id: mypy
         name: mypy
-        description: "Run mypy if mypy.ini exists"
+        description: "Run mypy if mypy configuration exists"
         entry: |
           python -c "
-          import os, subprocess, sys;
+          import os, subprocess, sys, tomllib
 
-          if os.path.isfile('mypy.ini'):
+          run_mypy = False
+
+          if os.path.isfile('mypy.ini') or os.path.isfile('.mypy.in'):
+            run_mypy = True
+
+          try:
+            with open('pyproject.toml', 'rb') as file:
+                pyproject = tomllib.load(file)
+                run_mypy = 'tool' in pyproject and 'mypy' in pyproject['tool']
+          except (FileNotFoundError, tomllib.TOMLDecodeError):
+            pass
+
+          if run_mypy:
             result = subprocess.run(['mypy'] + sys.argv[1:])
             sys.exit(1 if result.returncode else 0)
-          else:
-            sys.exit(0)
           "
         language: python
         'types_or': [python, pyi]
