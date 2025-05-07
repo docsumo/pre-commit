@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
         args: ['--maxkb=51200']
@@ -13,11 +13,37 @@ repos:
       - id: debug-statements
       - id: requirements-txt-fixer
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.15.0
+  - repo: local
     hooks:
       - id: mypy
-        stages: [manual]
+        name: mypy
+        description: "Run mypy if mypy configuration exists"
+        entry: |
+          python -c "
+          import os, subprocess, sys, tomllib
+
+          run_mypy = False
+
+          if os.path.isfile('mypy.ini') or os.path.isfile('.mypy.ini'):
+            run_mypy = True
+
+          try:
+            with open('pyproject.toml', 'rb') as file:
+                pyproject = tomllib.load(file)
+                run_mypy = 'tool' in pyproject and 'mypy' in pyproject['tool']
+          except (FileNotFoundError, tomllib.TOMLDecodeError):
+            pass
+
+          if run_mypy:
+            result = subprocess.run(['mypy'] + sys.argv[1:])
+            sys.exit(1 if result.returncode else 0)
+          "
+        language: python
+        'types_or': [python, pyi]
+        args: ["--ignore-missing-imports", "--scripts-are-modules", "--follow-imports=skip"]
+        require_serial: true
+        additional_dependencies: ["mypy"]
+        minimum_pre_commit_version: '2.9.2'
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.7
