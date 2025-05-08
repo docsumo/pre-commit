@@ -22,9 +22,9 @@ repos:
           bash -c '''
             run_mypy=false
 
-            if [ -f "mypy.ini" ] || [ -f ".mypy.ini" ]; then 
+            if [ -f "mypy.ini" ] || [ -f ".mypy.ini" ]; then
               run_mypy=true; 
-            elif grep -qo "^\[tool\.mypy\]" pyproject.toml; then 
+            elif grep -qo "^\[tool\.mypy\]" pyproject.toml; then
               run_mypy=true; 
             fi
 
