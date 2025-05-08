@@ -19,25 +19,20 @@ repos:
         name: mypy
         description: "Run mypy if mypy configuration exists"
         entry: |
-          python -c "
-          import os, subprocess, sys, tomllib
+          bash -c '''
+            run_mypy=false
 
-          run_mypy = False
+            if [ -f "mypy.ini" ] || [ -f ".mypy.ini" ]; then 
+              run_mypy=true; 
+            elif grep -qo "^\[tool\.mypy\]" pyproject.toml; then 
+              run_mypy=true; 
+            fi
 
-          if os.path.isfile('mypy.ini') or os.path.isfile('.mypy.ini'):
-            run_mypy = True
-
-          try:
-            with open('pyproject.toml', 'rb') as file:
-                pyproject = tomllib.load(file)
-                run_mypy = 'tool' in pyproject and 'mypy' in pyproject['tool']
-          except (FileNotFoundError, tomllib.TOMLDecodeError):
-            pass
-
-          if run_mypy:
-            result = subprocess.run(['mypy'] + sys.argv[1:])
-            sys.exit(1 if result.returncode else 0)
-          "
+            if [ "$run_mypy" = true ]; then
+              mypy "$@"; mypy_exit=$?;
+              [ "$mypy_exit" -eq 0 ] && exit 0 || exit 1;
+            fi
+          ''' bash
         language: python
         'types_or': [python, pyi]
         args: ["--ignore-missing-imports", "--scripts-are-modules", "--follow-imports=skip"]
