@@ -47,7 +47,8 @@ repos:
         args: [
           "--fix",
           "--select=I,E,W,F,S",
-          "--ignore=E501"
+          "--ignore=E501",
+          "--line-length=120"
         ]
         types_or: [ python, pyi ]
       - id: ruff-format
