@@ -3,7 +3,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-added-large-files
-        args: ['--maxkb=51200']
+        args: ["--maxkb=51200"]
       - id: check-ast
       - id: check-json
       - id: check-toml
@@ -23,9 +23,9 @@ repos:
             run_mypy=false
 
             if [ -f "mypy.ini" ] || [ -f ".mypy.ini" ]; then
-              run_mypy=true; 
+              run_mypy=true;
             elif grep -qo "^\[tool\.mypy\]" pyproject.toml; then
-              run_mypy=true; 
+              run_mypy=true;
             fi
 
             if [ "$run_mypy" = true ]; then
@@ -34,24 +34,23 @@ repos:
             fi
           ''' bash
         language: python
-        'types_or': [python, pyi]
-        args: ["--ignore-missing-imports", "--scripts-are-modules", "--follow-imports=skip"]
+        "types_or": [python, pyi]
+        args:
+          [
+            "--ignore-missing-imports",
+            "--scripts-are-modules",
+            "--follow-imports=skip",
+          ]
         require_serial: true
         additional_dependencies: ["mypy"]
-        minimum_pre_commit_version: '2.9.2'
+        minimum_pre_commit_version: "2.9.2"
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.11.7
     hooks:
       - id: ruff
-        args: [
-          "--fix",
-          "--select=I,E,W,F,S,T201",
-          "--ignore=E501",
-        ]
-        types_or: [ python, pyi ]
+        args: ["--fix", "--select=I,E,W,F,S,T201", "--ignore=E501"]
+        types_or: [python, pyi]
       - id: ruff-format
-        types_or: [ python, pyi ]
-        args: [
-          "--line-length=120"
-        ]
+        types_or: [python, pyi]
+        args: ["--line-length=120"]
