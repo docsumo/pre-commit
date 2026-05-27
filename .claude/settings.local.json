@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/bin/ls *)",
+      "Bash(python3 -c \"import yaml,sys; yaml.safe_load\\(open\\('/run/media/veracrypt1/repos/pre-commit/.pre-commit-config.yaml'\\)\\); print\\('YAML OK'\\)\")"
+    ]
+  }
+}
